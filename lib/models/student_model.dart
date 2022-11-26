@@ -8,7 +8,7 @@ class StudentDAO {
 
   Map<String, dynamic> toMap() {
     return {
-      'noctrl': noctrl,
+      //'noctrl': noctrl,
       'nombre': nombre,
       'email': email,
       'password': password,

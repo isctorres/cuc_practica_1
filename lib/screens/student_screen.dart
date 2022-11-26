@@ -1,3 +1,5 @@
+import 'package:cuc1/database/database_helper.dart';
+import 'package:cuc1/models/student_model.dart';
 import 'package:flutter/material.dart';
 
 class StudentScreen extends StatefulWidget {
@@ -8,6 +10,17 @@ class StudentScreen extends StatefulWidget {
 }
 
 class _StudentScreenState extends State<StudentScreen> {
+  DatabaseHelper? _database;
+  TextEditingController txtNomCon = TextEditingController();
+  TextEditingController txtEmailCon = TextEditingController();
+  TextEditingController txtPwdCon = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _database = DatabaseHelper();
+  }
+
   @override
   Widget build(BuildContext context) {
     final imgFoto = CircleAvatar(
@@ -17,6 +30,7 @@ class _StudentScreenState extends State<StudentScreen> {
     );
 
     final txtNombre = TextFormField(
+      controller: txtNomCon,
       keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         label: Text("Introduce el nombre"),
@@ -24,14 +38,39 @@ class _StudentScreenState extends State<StudentScreen> {
     );
 
     final txtEdad = TextFormField(
-      keyboardType: TextInputType.number,
+      controller: txtEmailCon,
+      keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
-        label: Text("Introduce la edad"),
+        label: Text("Introduce el correo electrónico"),
+      ),
+    );
+
+    final txtPwd = TextFormField(
+      controller: txtPwdCon,
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      decoration: const InputDecoration(
+        label: Text("Introduce el password"),
       ),
     );
 
     final btnAgregar = ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        var objStudent = StudentDAO(
+            email: txtEmailCon.text,
+            noctrl: 0,
+            nombre: txtNomCon.text,
+            password: txtPwdCon.text);
+        _database!.insStudent(objStudent).then((value) {
+          if (value > 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Alumno registrado!!!'),
+              ),
+            );
+          }
+        });
+      },
       child: const Text('Agregar'),
     );
 

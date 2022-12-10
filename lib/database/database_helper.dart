@@ -42,4 +42,16 @@ class DatabaseHelper {
     return conexion!.update(_nombreTBL, objStudent.toMap(),
         where: 'noctrl = ?', whereArgs: [objStudent.noctrl]);
   }
+
+  Future<int> delStudent(StudentDAO objStudent) async {
+    var conexion = await database;
+    return conexion!.delete(_nombreTBL,
+        where: 'noctrl = ?', whereArgs: [objStudent.noctrl]);
+  }
+
+  Future<List<StudentDAO>> listStudents() async {
+    var conexion = await database;
+    var result = await conexion!.query(_nombreTBL);
+    return result.map((student) => StudentDAO.fromMap(student)).toList();
+  }
 }

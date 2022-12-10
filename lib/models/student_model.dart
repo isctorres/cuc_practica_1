@@ -14,4 +14,13 @@ class StudentDAO {
       'password': password,
     };
   }
+
+  factory StudentDAO.fromMap(Map<String, dynamic> map) {
+    return StudentDAO(
+      email: map['email'],
+      noctrl: map['noctrl'],
+      nombre: map['nombre'],
+      password: map['password'],
+    );
+  }
 }
